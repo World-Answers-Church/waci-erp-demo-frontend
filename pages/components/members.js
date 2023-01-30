@@ -3,7 +3,7 @@ import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import { useData } from '../layout/context/pageContent';
+import { useData } from '../../layout/context/pageContent';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 export default function Members() {
