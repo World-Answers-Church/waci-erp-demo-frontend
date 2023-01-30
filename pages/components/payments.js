@@ -2,16 +2,15 @@ import React, { useState, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
-import { CurrencyFormater } from '../utils/currencyFormatter';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
-import { churchPlans } from '../constants/churchPlans';
-import { churchMembers } from '../constants/churchMembers';
-import { getDate } from '../utils/getDate';
-import { useData } from '../layout/context/pageContent';
+import { churchMembers } from '../../constants/churchMembers';
+import { churchPlans } from '../../constants/churchPlans';
+import { useData } from '../../layout/context/pageContent';
+
 export default function Payments() {
     const [plan, setValue10] = useState({});
     const [name, setValue1] = useState({});
@@ -26,7 +25,7 @@ export default function Payments() {
         plan: name.name,
         amount,
         description,
-        date: getDate()
+        // date: getDate()
     };
     const showSuccess = () => {
         addPayment(payment)

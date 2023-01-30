@@ -10,7 +10,6 @@ import AppTopbar from './AppTopbar';
 import AppConfig from './AppConfig';
 import { LayoutContext } from './context/layoutcontext';
 import PrimeReact from 'primereact/api';
-import LoginPage from '../pages/auth/login';
 import {  useData } from './context/pageContent';
 const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -28,7 +27,6 @@ const Layout = (props) => {
             }
         }
     });
-
     const [bindProfileMenuOutsideClickListener, unbindProfileMenuOutsideClickListener] = useEventListener({
         type: 'click',
         listener: (event) => {
@@ -103,15 +101,9 @@ const Layout = (props) => {
         'p-input-filled': layoutConfig.inputStyle === 'filled',
         'p-ripple-disabled': !layoutConfig.ripple
     });
-    const [logged, setLogged] = useState(false);
-    console.log(logged);
+   
     const data = useData()
-    if (logged===true) {
-        const route = useRouter()
-        console.log(data)
-        // if(route.pathname!=="/"){
-        //     route.push("/")
-        // }
+    
         return (
             <React.Fragment>
 
@@ -124,14 +116,12 @@ const Layout = (props) => {
                         <div className="layout-main">{data.page}</div>
                         <AppFooter />
                     </div>
-                    <AppConfig />
+                    {/* <AppConfig /> */}
                     <div className="layout-mask"></div>
                 </div>
             </React.Fragment>
         );
-    } else {
-        return <LoginPage setLogged={setLogged} />;
-    }
+    
 };
 
 export default Layout;

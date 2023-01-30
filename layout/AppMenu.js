@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import AppMenuitem from './AppMenuitem';
 import { LayoutContext } from './context/layoutcontext';
 import { MenuProvider } from './context/menucontext';
-import Members from '../components/members';
-import Plans from '../components/plans';
-import Payments from '../components/payments';
+import Members from '../pages/components/members';
+import Plans from '../pages/components/plans';
+import Payments from '../pages/components/payments';
 import Dashboard from '../pages';
 const AppMenu = () => {
     const { layoutConfig } = useContext(LayoutContext);
@@ -13,7 +13,7 @@ const AppMenu = () => {
     const model = [
         {
             label: 'Home',
-            items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', page:<Dashboard/> }]
+            items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', page:<Dashboard/>,to:'/' }]
         },
         {
             label: '',
@@ -22,19 +22,22 @@ const AppMenu = () => {
                     label: 'Members',
                     icon: 'pi pi-fw pi-users',
                     page: <Members />,
-                    id: 1
+                    id: 1,
+                    to: '/members'
                 },
                 {
                     label: 'Plans',
                     icon: 'pi pi-fw pi-briefcase',
                     page: <Plans />,
-                    id: 2
+                    id: 2,
+                    to:'/plans'
                 },
                 {
                     label: 'Payments',
                     icon: 'pi pi-fw pi-money-bill',
                     page: <Payments />,
-                    id: 3
+                    id: 3,
+                    to:'/payments'
                 }
             ]
         }

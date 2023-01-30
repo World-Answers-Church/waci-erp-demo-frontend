@@ -2,13 +2,12 @@ import React, { useState, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
-import { CurrencyFormater } from '../utils/currencyFormatter';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { useData } from '../layout/context/pageContent';
 
+import { useData } from '../../layout/context/pageContent';
 export default function Plans() {
     const [displayBasic, setDisplayBasic] = useState(false);
     const toast = useRef();
