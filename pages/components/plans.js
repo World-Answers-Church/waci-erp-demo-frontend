@@ -15,18 +15,18 @@ export default function Plans() {
     const [target, setTaget] = useState(0);
     const [description, setDescription] = useState('');
     const [min, setMin] = useState(0);
-    const {plans, addPlan} = useData();
+    const { plans, addPlan } = useData();
 
     const plan = {
         name,
-        targetAmount:target,
+        targetAmount: target,
         description,
-        minPledge:min
+        minPledge: min
     };
     const showSuccess = () => {
         //
-        console.log(plan)
-        addPlan(plan)
+        console.log(plan);
+        addPlan(plan);
         toast.current.show({ severity: 'success', summary: 'Success', detail: 'Plan Added Successfully', life: 3000 });
         setDisplayBasic(false);
     };
@@ -69,7 +69,7 @@ export default function Plans() {
                         </div>
                         <div className="field ">
                             <label htmlFor="address">Description</label>
-                            <InputTextarea id="address" rows="4" value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <InputTextarea id="address" rows="3" value={description} onChange={(e) => setDescription(e.target.value)} autoResize />
                         </div>
                     </div>
                 </Dialog>

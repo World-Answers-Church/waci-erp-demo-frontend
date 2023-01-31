@@ -10,7 +10,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { churchMembers } from '../../constants/churchMembers';
 import { churchPlans } from '../../constants/churchPlans';
 import { useData } from '../../layout/context/pageContent';
-
+import getDate from '../../utils/getDate';
 export default function Payments() {
     const [plan, setValue10] = useState({});
     const [name, setValue1] = useState({});
@@ -18,17 +18,16 @@ export default function Payments() {
     const [amount, setAmount] = useState(0);
     const [description, setDescription] = useState('');
     const toast = useRef();
-
-    const { payments,addPayment } = useData();
+    const { payments, addPayment } = useData();
     const payment = {
         person: name.name,
         plan: name.name,
         amount,
         description,
-        // date: getDate()
+        date: getDate()
     };
     const showSuccess = () => {
-        addPayment(payment)
+        addPayment(payment);
         console.log(payment);
         toast.current.show({ severity: 'success', summary: 'Success', detail: 'Payment Added Successfully', life: 3000 });
         setDisplayBasic(false);
@@ -72,7 +71,7 @@ export default function Payments() {
                         </div>
                         <div className="field ">
                             <label htmlFor="address">Description</label>
-                            <InputTextarea id="address" rows="4" draggable={false} value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <InputTextarea id="address" rows="4" draggable={false} value={description} onChange={(e) => setDescription(e.target.value)} autoResize />
                         </div>
                     </div>
                 </Dialog>
