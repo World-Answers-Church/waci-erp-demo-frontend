@@ -1,6 +1,6 @@
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
@@ -8,6 +8,7 @@ import { Password } from 'primereact/password';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
 import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
+import { useData } from '../../../layout/context/pageContent';
 const LoginPage = (props) => {
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
@@ -20,7 +21,7 @@ const LoginPage = (props) => {
         name: 'admin',
         password: 'root'
     };
-
+    const { isLoggedIn, setIsLoggedIn } = useData();
     return (
         <div className={containerClassName}>
             <div className="flex flex-column align-items-center justify-content-center">
@@ -53,7 +54,15 @@ const LoginPage = (props) => {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Button label="Sign In" className="w-full p-3 text-xl" onClick={() => props.setLogged(true)}></Button>
+                            <Button
+                                label="Sign In"
+                                className="w-full p-3 text-xl"
+                                onClick={() => {
+                                    setIsLoggedIn(true);
+                                    localStorage.setItem('user', 'Moses');
+                                    props.setLogged(true);
+                                }}
+                            ></Button>
                         </div>
                     </div>
                 </div>

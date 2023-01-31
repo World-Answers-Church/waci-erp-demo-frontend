@@ -1,5 +1,5 @@
 import getConfig from 'next/config';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppMenuitem from './AppMenuitem';
 import { LayoutContext } from './context/layoutcontext';
 import { MenuProvider } from './context/menucontext';
@@ -7,13 +7,14 @@ import Members from '../pages/components/members';
 import Plans from '../pages/components/plans';
 import Payments from '../pages/components/payments';
 import Dashboard from '../pages';
+import { useData } from './context/pageContent';
 const AppMenu = () => {
     const { layoutConfig } = useContext(LayoutContext);
     const contextPath = getConfig().publicRuntimeConfig.contextPath;
     const model = [
         {
             label: 'Home',
-            items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', page:<Dashboard/>,to:'/' }]
+            items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', page: <Dashboard />, to: '/' }]
         },
         {
             label: '',
@@ -30,19 +31,20 @@ const AppMenu = () => {
                     icon: 'pi pi-fw pi-briefcase',
                     page: <Plans />,
                     id: 2,
-                    to:'/plans'
+                    to: '/plans'
                 },
                 {
                     label: 'Payments',
                     icon: 'pi pi-fw pi-money-bill',
                     page: <Payments />,
                     id: 3,
-                    to:'/payments'
+                    to: '/payments'
                 }
             ]
         }
     ];
-
+    const { setPage } = useData();
+    useEffect(() => setPage(<Dashboard />), []);
     return (
         <MenuProvider>
             <ul className="layout-menu">

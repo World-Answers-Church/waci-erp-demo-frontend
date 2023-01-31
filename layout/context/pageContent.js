@@ -13,7 +13,7 @@ export const Provider = ({ children }) => {
     const [members, setMembers] = useState(churchMembers);
     const [plans, setPlans] = useState(churchPlans);
     const [payments, setPayments] = useState(churchPayments);
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     function addMember({ name, contact, location }) {
         setMembers((prevMembers) => {
             return [...prevMembers, { name, contact, location }];
@@ -22,7 +22,7 @@ export const Provider = ({ children }) => {
 
     function addPlan({ name, targetAmount, description, minPledge }) {
         setPlans((prevMembers) => {
-            return [...prevMembers, { name, targetAmount, description, minPledge,numberOfPledges:0 }];
+            return [...prevMembers, { name, targetAmount, description, minPledge, numberOfPledges: 0 }];
         });
     }
     function addPayment({ person, amount, date }) {
@@ -38,7 +38,9 @@ export const Provider = ({ children }) => {
         plans,
         addPlan,
         payments,
-        addPayment
+        addPayment,
+        isLoggedIn,
+        setIsLoggedIn
     };
     return <pageContext.Provider value={data}>{children}</pageContext.Provider>;
 };

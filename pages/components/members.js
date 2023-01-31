@@ -38,15 +38,15 @@ export default function Members() {
     };
 
     const clearFilter1 = () => {
-        initFilters1();
+        // initFilters1();
     };
 
     const onGlobalFilterChange1 = (e) => {
-        const value = e.target.value;
-        let _filters1 = { ...filters1 };
-        _filters1['global'].value = value;
-        setFilters1(_filters1);
-        setGlobalFilterValue1(value);
+        // const value = e.target.value;
+        // let _filters1 = { ...filters1 };
+        // _filters1['global'].value = value;
+        // setFilters1(_filters1);
+        // setGlobalFilterValue1(value);
     };
 
     const toast = useRef();

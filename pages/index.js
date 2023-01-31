@@ -7,22 +7,22 @@ import { Menu } from 'primereact/menu';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ProductService } from '../demo/service/ProductService';
 import { LayoutContext } from '../layout/context/layoutcontext';
-
+import { useRouter } from 'next/router';
 
 
 const lineData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
+        // {
+        //     label: 'First Dataset',
+        //     data: [65, 59, 80, 81, 56, 55, 40],
+        //     fill: false,
+        //     backgroundColor: '#2f4860',
+        //     borderColor: '#2f4860',
+        //     tension: 0.4
+        // },
         {
-            label: 'First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: false,
-            backgroundColor: '#2f4860',
-            borderColor: '#2f4860',
-            tension: 0.4
-        },
-        {
-            label: 'Second Dataset',
+            label: 'attendees',
             data: [28, 48, 40, 19, 86, 27, 90],
             fill: false,
             backgroundColor: '#00bb7e',
@@ -39,7 +39,7 @@ const Dashboard = () => {
     const [lineOptions, setLineOptions] = useState(null);
     const { layoutConfig } = useContext(LayoutContext);
     const contextPath = getConfig().publicRuntimeConfig.contextPath;
-
+const router = useRouter()
     const applyLightTheme = () => {
         const lineOptions = {
             plugins: {
@@ -107,6 +107,7 @@ const Dashboard = () => {
     useEffect(() => {
         const productService = new ProductService();
         productService.getProductsSmall().then((data) => setProducts(data));
+        router.push('/')
     }, []);
 
     useEffect(() => {
@@ -296,7 +297,7 @@ const Dashboard = () => {
 
             <div className="col-12 xl:col-6">
                 <div className="card">
-                    <h5>Sales Overview</h5>
+                    <h5>Attendence</h5>
                     <Chart type="line" data={lineData} options={lineOptions} />
                 </div>
 
