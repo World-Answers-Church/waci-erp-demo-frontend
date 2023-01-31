@@ -2,11 +2,13 @@ import getConfig, { setConfig } from 'next/config';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import { classNames } from 'primereact/utils';
-import React, { forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useContext, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import { LayoutContext } from './context/layoutcontext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import Replace from '../utils/replace'
+import Replace from '../utils/replace';
+import Dashboard from '../pages';
+import { useData } from './context/pageContent';
 const AppTopbar = forwardRef((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
     const menubuttonRef = useRef(null);
@@ -21,10 +23,16 @@ const AppTopbar = forwardRef((props, ref) => {
         topbarmenubutton: topbarmenubuttonRef.current
     }));
 
+    const { setPage } = useData();
+
+    function Reset() {
+        setPage(<Dashboard />);
+        Replace('/');
+    }
     const logOut = () => {
         router.push('/');
         props.setLogged(false);
-        Replace('/')
+        Replace('/');
     };
 
     const confirmationDialogFooter = (
@@ -36,7 +44,7 @@ const AppTopbar = forwardRef((props, ref) => {
     return (
         <div className="layout-topbar">
             <Link href="/">
-                <a className="layout-topbar-logo">
+                <a className="layout-topbar-logo" onClick={() => Reset()}>
                     <>
                         <img src={`${contextPath}/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
                         <span>WACI </span>
