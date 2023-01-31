@@ -5,7 +5,7 @@ import { classNames } from 'primereact/utils';
 import React, { useEffect, useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { MenuContext } from './context/menucontext';
-import {  useData } from './context/pageContent';
+import { useData } from './context/pageContent';
 const AppMenuitem = (props) => {
     const { activeMenu, setActiveMenu } = useContext(MenuContext);
     const router = useRouter();
@@ -14,7 +14,7 @@ const AppMenuitem = (props) => {
     const isActiveRoute = item.to && router.pathname === item.to;
     const active = activeMenu === key || activeMenu.startsWith(key + '-');
     const { setPage } = useData();
-    console.log(key)
+
     useEffect(() => {
         if (item.to && router.pathname === item.to) {
             setActiveMenu(key);
@@ -46,15 +46,13 @@ const AppMenuitem = (props) => {
         }
         if (item.page) {
             setPage(item.page);
+            router.push(item.to);
             // setActiveMenu(key);
             // active ? props.parentKey : key
         }
         // toggle active state
-        if (item.items)
-        setActiveMenu(active ? props.parentKey : key);
-    else
-        setActiveMenu(key);
-        
+        if (item.items) setActiveMenu(active ? props.parentKey : key);
+        else setActiveMenu(key);
     };
 
     const subMenu = item.items && item.visible !== false && (
