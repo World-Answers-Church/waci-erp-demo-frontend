@@ -10,29 +10,23 @@ import { Provider } from '../layout/context/pageContent';
 import LoginPage from './auth/login';
 export default function MyApp({ Component, pageProps }) {
     const [logged, setLogged] = useState(false);
-    if (logged === true) {
-        if (Component.getLayout) {
-            return (
-                <Provider>
-                    <LayoutProvider>{Component.getLayout(<Component {...pageProps} />)}</LayoutProvider>
-                </Provider>
-            );
-        } else {
-            return (
-                <Provider>
-                    <LayoutProvider>
-                        <Layout>
+    return (
+        <Provider>
+            {logged === true ? (
+                <LayoutProvider>
+                    {Component.getLayout ? (
+                        Component.getLayout(<Component {...pageProps} />)
+                    ) : (
+                        <Layout setLogged={setLogged}>
                             <Component {...pageProps} />
                         </Layout>
-                    </LayoutProvider>
-                </Provider>
-            );
-        }
-    } else {
-        return (
-            <LayoutProvider>
-                <LoginPage setLogged={setLogged} />
-            </LayoutProvider>
-        );
-    }
+                    )}
+                </LayoutProvider>
+            ) : (
+                <LayoutProvider>
+                    <LoginPage setLogged={setLogged} />
+                </LayoutProvider>
+            )}
+        </Provider>
+    );
 }
