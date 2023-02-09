@@ -10,7 +10,7 @@ const pageContext = createContext();
 export function useData() {
   return useContext(pageContext);
 }
-console.log(BASE_URL);
+
 //
 export const Provider = ({ children }) => {
   const [page, setPage] = useState(<Dashboard />);
@@ -38,7 +38,7 @@ export const Provider = ({ children }) => {
     emailAddress,
     yearJoined,
     occupation,
-    nin
+    nin,
   }) {
     setMembers((prevMembers) => {
       return [
@@ -52,7 +52,7 @@ export const Provider = ({ children }) => {
           emailAddress,
           yearJoined,
           occupation,
-          nin
+          nin,
         },
       ];
     });
