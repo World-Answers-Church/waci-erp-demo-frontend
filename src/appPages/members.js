@@ -27,35 +27,24 @@ export default function Members() {
   const [emailAddress, setEmailAddress] = useState("");
   const [yearJoined, setYearJoined] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [nin, setNin] = useState(""); //pending alidation format
+  const [nin, setNin] = useState(""); //pending validation format
   const toast = useRef();
   const memberData = {
-    firstName,
-    lastName,
-    middleName,
-    phoneNumber,
-    physicalAddress,
-    emailAddress,
-    yearJoined,
-    occupation,
-    nin,
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
+    middleName: middleName.trim(),
+    phoneNumber: phoneNumber.trim(),
+    physicalAddress: physicalAddress.trim(),
+    emailAddress: emailAddress.trim(),
+    yearJoined: yearJoined.trim(),
+    occupation: occupation.trim(),
+    nin: nin.trim(),
+    //trim() is to remove trailing spaces int the input field
   };
 
   const initFilters1 = () => {
     setFilters1({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      name: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-      },
-      contact: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-      },
-      location: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-      },
     });
     setGlobalFilterValue1("");
   };
@@ -97,7 +86,7 @@ export default function Members() {
   const Submit = () => {
     let isValid = true; // validation flag
 
-    if (memberData.emailAddress.trim() !== "") {
+    if (memberData.emailAddress !== "") {
       // making consideration for members without emails
       if (!isValidEmail(memberData.emailAddress)) {
         isValid = false;
@@ -120,7 +109,8 @@ export default function Members() {
       showToast("Last Name is not Valid or too short");
     }
 
-    if (memberData.middleName.trim() !== "") {
+    if (memberData.middleName !== "") {
+        //making consideration for those without middle names
       if (isValidText(memberData.middleName) === false) {
         isValid = false;
         showToast("Middle Name is not Valid or too short");
@@ -139,7 +129,10 @@ export default function Members() {
 
     if (!isValidYear(Number(memberData.yearJoined))) {
       isValid = false;
-      showToast("Year Joined is not Valid, should be 2002 and later or <=2023");
+
+      showToast(
+        `Year Joined is not Valid, should be 2002 and later or before ${new Date().getFullYear()}`
+      );
     }
 
     if (isValid === true) {
@@ -148,7 +141,7 @@ export default function Members() {
       showToast(message, "success", "Message");
       addMember(memberData);
       setDisplayBasic(false);
-    //   clearForm();
+      clearForm();
     }
   };
 
@@ -168,6 +161,7 @@ export default function Members() {
             value={globalFilterValue1}
             onChange={onGlobalFilterChange1}
             placeholder="Keyword Search"
+            style={{ width: "auto" }}
           />
         </span>
       </div>
@@ -205,7 +199,7 @@ export default function Members() {
         <DataTable
           value={members}
           paginator
-          className="mt-3 "
+          className="mt-3"
           showGridlines
           rows={20}
           dataKey="id"
