@@ -3,19 +3,58 @@ import Dashboard from "../appPages/dashboard";
 import { churchMembers } from "../constants/churchMembers";
 import { churchPlans } from "../constants/churchPlans";
 import { churchPayments } from "../constants/churchPayments";
+import BASE_URL from "../constants/baseUrl";
+
 const pageContext = createContext();
+
 export function useData() {
   return useContext(pageContext);
 }
+console.log(BASE_URL);
+//
 export const Provider = ({ children }) => {
   const [page, setPage] = useState(<Dashboard />);
   const [members, setMembers] = useState(churchMembers);
   const [plans, setPlans] = useState(churchPlans);
   const [payments, setPayments] = useState(churchPayments);
 
-  function addMember({ name, contact, location }) {
+  //
+  // geting church members
+  async function fetchMembers() {
+    try {
+      const response = await fetch(BASE_URL + "/members/get");
+      console.log(response);
+    } catch (e) {
+      console.log("Erooor>>>>>>>>>>>>", e);
+    }
+  }
+
+  function addMember({
+    firstName,
+    lastName,
+    middleName,
+    phoneNumber,
+    physicalAddress,
+    emailAddress,
+    yearJoined,
+    occupation,
+    nin
+  }) {
     setMembers((prevMembers) => {
-      return [...prevMembers, { name, contact, location }];
+      return [
+        ...prevMembers,
+        {
+          firstName,
+          lastName,
+          middleName,
+          phoneNumber,
+          physicalAddress,
+          emailAddress,
+          yearJoined,
+          occupation,
+          nin
+        },
+      ];
     });
   }
 
@@ -27,11 +66,13 @@ export const Provider = ({ children }) => {
       ];
     });
   }
+
   function addPayment({ person, amount, date }) {
     setPayments((prevMembers) => {
       return [...prevMembers, { person, amount, date }];
     });
   }
+
   const data = {
     page,
     setPage,
@@ -41,6 +82,8 @@ export const Provider = ({ children }) => {
     addPlan,
     payments,
     addPayment,
+    fetchMembers,
   };
+
   return <pageContext.Provider value={data}>{children}</pageContext.Provider>;
 };
