@@ -12,12 +12,15 @@ import {
   isValidPhoneNumber,
   isValidText,
   isValidYear,
+  toSentenceCase,
 } from "../utils/validations";
+import { Dropdown } from "primereact/dropdown";
+import { InputTextarea } from "primereact/inputtextarea";
 
 export default function Members() {
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
   const [filters1, setFilters1] = useState(null);
-  const { members, addMember } = useData();
+  const { members, addMember, fetchMembers } = useData();
   const [displayBasic, setDisplayBasic] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -29,18 +32,31 @@ export default function Members() {
   const [occupation, setOccupation] = useState("");
   const [nin, setNin] = useState(""); //pending validation format
   const toast = useRef();
+  const [salutation, setSalutation] = useState("");
+
   const memberData = {
-    firstName: firstName.trim(),
-    lastName: lastName.trim(),
-    middleName: middleName.trim(),
+    firstName: toSentenceCase(firstName),
+    lastName: toSentenceCase(lastName),
+    middleName: toSentenceCase(middleName),
     phoneNumber: phoneNumber.trim(),
-    physicalAddress: physicalAddress.trim(),
+    physicalAddress: toSentenceCase(physicalAddress),
     emailAddress: emailAddress.trim(),
     yearJoined: yearJoined.trim(),
-    occupation: occupation.trim(),
+    occupation: toSentenceCase(occupation),
     nin: nin.trim(),
+    salutation: salutation.name,
+    //toSentenceCase is to prevent submiting content with difernet cases
     //trim() is to remove trailing spaces int the input field
   };
+
+  const salutations = [
+    { name: "MR" },
+    { name: "MS" },
+    { name: "DOCTOR" },
+    { name: "PROFESSOR" },
+    { name: "HONOURABLE" },
+    { name: "ENGINEER" },
+  ];
 
   const initFilters1 = () => {
     setFilters1({
@@ -52,7 +68,12 @@ export default function Members() {
   const clearFilter1 = () => {
     initFilters1();
   };
-  useEffect(() => initFilters1(), []);
+
+  useEffect(() => {
+    initFilters1();
+    fetchMembers();
+  }, []);
+
   const onGlobalFilterChange1 = (e) => {
     const value = e.target.value;
     let _filters1 = { ...filters1 };
@@ -82,8 +103,10 @@ export default function Members() {
     setPhysicalAddress("");
     setPhoneNumber("");
     setYearJoined("");
+    setSalutation("");
   }
-  const Submit = () => {
+
+  const Submit = async () => {
     let isValid = true; // validation flag
 
     if (memberData.emailAddress !== "") {
@@ -101,19 +124,19 @@ export default function Members() {
 
     if (!isValidText(memberData.firstName)) {
       isValid = false;
-      showToast("First Name is not Valid or too short");
+      showToast("First Name is not a valid word or too short");
     }
 
     if (!isValidText(memberData.lastName)) {
       isValid = false;
-      showToast("Last Name is not Valid or too short");
+      showToast("Last Name is not a valid word or too short");
     }
 
     if (memberData.middleName !== "") {
-        //making consideration for those without middle names
+      //making consideration for those without middle names
       if (isValidText(memberData.middleName) === false) {
         isValid = false;
-        showToast("Middle Name is not Valid or too short");
+        showToast("Middle Name is not a valid word or too short");
       }
     }
 
@@ -135,13 +158,28 @@ export default function Members() {
       );
     }
 
+    if (memberData.salutation === "") {
+      isValid = false;
+
+      showToast("Select a Salutation");
+    }
+
     if (isValid === true) {
       console.log(memberData);
-      let message = "Member Saved Successfuly";
-      showToast(message, "success", "Message");
-      addMember(memberData);
-      setDisplayBasic(false);
-      clearForm();
+
+      const saved = await addMember(memberData);
+
+      if (saved === true) {
+        let message = "Member Saved Successfuly";
+        fetchMembers(); //refreshing the table
+        showToast(message, "success", "Message");
+        setDisplayBasic(false);
+        console.log("saved");
+        clearForm();
+      } else {
+        let message = "An error occured while adding the member";
+        showToast(message, "error", "Error");
+      }
     }
   };
 
@@ -200,7 +238,7 @@ export default function Members() {
           value={members}
           paginator
           className="mt-3"
-          showGridlines
+          // showGridlines
           rows={20}
           dataKey="id"
           filters={filters1}
@@ -209,6 +247,11 @@ export default function Members() {
           emptyMessage="No Church Members found."
           header={header1}
         >
+           <Column
+            field="salutation"
+            header="Salutation"
+            style={{ flexGrow: 1, minWidth: "12rem" }}
+          ></Column>
           <Column
             field="firstName"
             header="First Name"
@@ -241,7 +284,7 @@ export default function Members() {
 
           <Column
             field="yearJoined"
-            header="Member Since"
+            header="Year Joined"
             style={{ flexGrow: 1, minWidth: "12rem" }}
           ></Column>
           <Column
@@ -258,7 +301,7 @@ export default function Members() {
 
         <Toast ref={toast} />
 
-        <Dialog
+        <Dialog // the form
           header="Add Church Member"
           visible={displayBasic}
           style={{ height: "fit-content" }}
@@ -268,6 +311,15 @@ export default function Members() {
           className="col-11"
         >
           <div className=" p-fluid formgrid grid">
+            <div className="field col-12 md:col-4">
+              <label htmlFor="name1">Salutation</label>
+              <Dropdown
+                value={salutation}
+                onChange={(e) => setSalutation(e.value)}
+                options={salutations}
+                optionLabel="name"
+              />
+            </div>
             <div className="field col-12 md:col-4">
               <label htmlFor="name1">First Name</label>
               <InputText
@@ -347,13 +399,17 @@ export default function Members() {
             </div>
 
             <div className="field col-12 md:col-4 ">
-              <label htmlFor="address">Ocupation</label>
+              <label htmlFor="address">Occupation</label>
               <InputText
                 id="occupation"
                 type="text"
                 value={occupation}
                 onChange={(e) => setOccupation(e.target.value)}
               />
+            </div>
+            <div className="field col-12 md:col-8 ">
+              <label htmlFor="address">Prayer Request</label>
+              <InputTextarea placeholder="Your request" autoResize rows="3" />
             </div>
           </div>
         </Dialog>
