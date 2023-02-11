@@ -4,7 +4,7 @@ import { churchMembers } from "../constants/churchMembers";
 import { churchPlans } from "../constants/churchPlans";
 import { churchPayments } from "../constants/churchPayments";
 import BASE_URL from "../constants/baseUrl";
-
+import axios from "axios";
 const pageContext = createContext();
 
 export function useData() {
@@ -14,7 +14,7 @@ export function useData() {
 //
 export const Provider = ({ children }) => {
   const [page, setPage] = useState(<Dashboard />);
-  const [members, setMembers] = useState(churchMembers);
+  const [members, setMembers] = useState([]);
   const [plans, setPlans] = useState(churchPlans);
   const [payments, setPayments] = useState(churchPayments);
 
@@ -22,40 +22,27 @@ export const Provider = ({ children }) => {
   // geting church members
   async function fetchMembers() {
     try {
-      const response = await fetch(BASE_URL + "/members/get");
-      console.log(response);
+      const response = await axios.get(
+        BASE_URL + "/members/get?searchTerm=members&offset=100&limit=100"
+      );
+      // console.log(response)
+      setMembers(response.data);
     } catch (e) {
       console.log("Erooor>>>>>>>>>>>>", e);
     }
   }
 
-  function addMember({
-    firstName,
-    lastName,
-    middleName,
-    phoneNumber,
-    physicalAddress,
-    emailAddress,
-    yearJoined,
-    occupation,
-    nin,
-  }) {
-    setMembers((prevMembers) => {
-      return [
-        ...prevMembers,
-        {
-          firstName,
-          lastName,
-          middleName,
-          phoneNumber,
-          physicalAddress,
-          emailAddress,
-          yearJoined,
-          occupation,
-          nin,
-        },
-      ];
-    });
+  async function addMember(memberData) {
+    try {
+      const response = await axios.post(BASE_URL + "/members/save", memberData);
+
+      console.log(response);
+
+      return response.status === 200;
+    } catch (e) {
+      console.log("Error", e);
+      return false;
+    }
   }
 
   function addPlan({ name, targetAmount, description, minPledge }) {
