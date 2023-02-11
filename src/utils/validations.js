@@ -32,3 +32,8 @@ export function isValidYear(year) {
 
   return regex.test(year);
 }
+
+export function toSentenceCase(str) {
+  str = str.trim();
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
