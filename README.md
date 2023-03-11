@@ -1,13 +1,16 @@
+# Getting Started with WACI ERP SYS
 
-## Getting Started
+In the project directory, you can run:
 
-First, run the development server:
+### `npm install`
 
-```bash
-npm install
-# then
-npm run dev
+then run
 
-```
+### `npm start`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
