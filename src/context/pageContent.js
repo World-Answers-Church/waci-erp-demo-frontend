@@ -1,9 +1,9 @@
 import React, { useState, useContext, createContext } from "react";
 import Dashboard from "../appPages/dashboard";
-import { churchMembers } from "../constants/churchMembers";
-import { churchPlans } from "../constants/churchPlans";
-import { churchPayments } from "../constants/churchPayments";
-import BASE_URL from "../constants/baseUrl";
+import { churchMembers } from "../constants/dummy/churchMembers";
+import { churchPlans } from "../constants/dummy/churchPlans";
+import { churchPayments } from "../constants/dummy/churchPayments";
+import {BASE_URL} from "../constants/Constants";
 import axios from "axios";
 const pageContext = createContext();
 

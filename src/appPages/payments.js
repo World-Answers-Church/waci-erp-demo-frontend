@@ -8,8 +8,8 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from "primereact/dropdown";
-import { churchPlans } from "../constants/churchPlans";
-import { churchMembers } from "../constants/churchMembers";
+import { churchPlans } from "../constants/dummy/churchPlans";
+import { churchMembers } from "../constants/dummy/churchMembers";
 import { useData } from "../context/pageContent";
 import getDate from "../utils/getDate";
 export default function Payments() {
