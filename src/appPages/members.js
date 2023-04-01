@@ -6,7 +6,7 @@ import { Button } from "primereact/button";
 import { useData } from "../context/pageContent";
 import { Toast } from "primereact/toast";
 import { Dialog } from "primereact/dialog";
-import { FilterMatchMode, FilterOperator } from "primereact/api";
+import { FilterMatchMode } from "primereact/api";
 import {
   isValidEmail,
   isValidPhoneNumber,
@@ -16,11 +16,12 @@ import {
 } from "../utils/validations";
 import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
-
+import BaseApiService from "../utils/BaseApiService";
+import { DEFAULT_PAGINATION_LIMIT } from "../constants/Constants";
 export default function Members() {
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
   const [filters1, setFilters1] = useState(null);
-  const { members, addMember, fetchMembers } = useData();
+  const [searchTerm, setSearchTerm] = useState("");
   const [displayBasic, setDisplayBasic] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -33,6 +34,8 @@ export default function Members() {
   const [nin, setNin] = useState(""); //pending validation format
   const toast = useRef();
   const [salutation, setSalutation] = useState("");
+  const [members, setMembers] = useState([]);
+  const [offset, setOffset] = useState(0);
 
   const memberData = {
     firstName: toSentenceCase(firstName),
@@ -68,6 +71,33 @@ export default function Members() {
   const clearFilter1 = () => {
     initFilters1();
   };
+
+  function fetchMembers() {
+    new BaseApiService()
+      .makeGetRequest("/members/get", {
+        searchTerm: searchTerm,
+        offset: offset,
+        limit: DEFAULT_PAGINATION_LIMIT,
+      })
+      .then(async (response) => {
+        setMembers(response);
+      })
+      .catch((error) => {
+        console.log("Erooor>>>>>>>>>>>>", error);
+      });
+  }
+
+  async function addMember(data) {
+    try {
+      const path = "/members/save";
+      const response = await new BaseApiService().makePostRequest(data, path);
+      console.log(response);
+      return response ? response.status === 200 : false;
+    } catch (e) {
+      console.log("Error", e);
+      return false;
+    }
+  }
 
   useEffect(() => {
     initFilters1();
@@ -196,7 +226,7 @@ export default function Members() {
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
           <InputText
-            value={globalFilterValue1}
+            value={searchTerm}
             onChange={onGlobalFilterChange1}
             placeholder="Keyword Search"
             style={{ width: "auto" }}
@@ -206,7 +236,11 @@ export default function Members() {
     );
   };
 
+  const isDesktop = () => {
+    return window.innerWidth > 991;
+  };
   const header1 = renderHeader1();
+
   const basicDialogFooter = (
     <>
       <Button
@@ -224,6 +258,7 @@ export default function Members() {
       />
     </>
   );
+
   return (
     <div className="col-12">
       <div className="card">
@@ -238,6 +273,7 @@ export default function Members() {
           value={members}
           paginator
           className="mt-3"
+          // loading='true'
           // showGridlines
           rows={20}
           dataKey="id"
@@ -247,7 +283,7 @@ export default function Members() {
           emptyMessage="No Church Members found."
           header={header1}
         >
-           <Column
+          <Column
             field="salutation"
             header="Salutation"
             style={{ flexGrow: 1, minWidth: "12rem" }}
@@ -308,7 +344,7 @@ export default function Members() {
           modal
           footer={basicDialogFooter}
           onHide={() => setDisplayBasic(false)}
-          className="col-11"
+          className={isDesktop() ? "col-9" : "col-11"}
         >
           <div className=" p-fluid formgrid grid">
             <div className="field col-12 md:col-4">
