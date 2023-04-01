@@ -1,4 +1,4 @@
-export default {
+const testData = {
   data: [
     {
       id: "1000",
@@ -122,3 +122,5 @@ export default {
     },
   ],
 };
+
+export default testData;
