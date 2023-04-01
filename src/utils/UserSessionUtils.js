@@ -1,6 +1,6 @@
 import {
   TOKEN_LOCALSTORAGE_KEY,
-  USER_DETAILS_KEY,
+  USER_DETAILS_LOCALSTORAGE_KEY,
   REFRESH_TOKEN_LOCALSTORAGE_KEY,
   USER_IS_LOGGED_IN_LOCALSTORAGE_KEY,
 } from "../constants/Constants";
@@ -30,7 +30,10 @@ export class UserSessionUtils {
    * @returns
    */
   static setUserDetails(userdetails) {
-    localStorage.setItem(USER_DETAILS_KEY, JSON.stringify(userdetails));
+    localStorage.setItem(
+      USER_DETAILS_LOCALSTORAGE_KEY,
+      JSON.stringify(userdetails)
+    );
     this.setIsUserLoggedIn("true");
   }
   /**
@@ -38,7 +41,7 @@ export class UserSessionUtils {
    * @returns
    */
   static getUserDetails() {
-    let user = localStorage.getItem(USER_DETAILS_KEY);
+    let user = localStorage.getItem(USER_DETAILS_LOCALSTORAGE_KEY);
     return JSON.parse(user);
   }
 
@@ -74,7 +77,7 @@ export class UserSessionUtils {
   static clearLocalStorageAndLogOut() {
     localStorage.clear();
     localStorage.setItem(TOKEN_LOCALSTORAGE_KEY, "");
-    localStorage.setItem(USER_DETAILS_KEY, "");
+    localStorage.setItem(USER_DETAILS_LOCALSTORAGE_KEY, "");
     localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE_KEY, "");
     localStorage.setItem(USER_IS_LOGGED_IN_LOCALSTORAGE_KEY, "");
     window.location.href = "/";
