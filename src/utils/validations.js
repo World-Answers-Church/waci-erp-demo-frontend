@@ -15,11 +15,7 @@ export function isValidText(text) {
 export function isValidPhoneNumber(number) {
   if (number.length === 10) {
     if (number.startsWith("07")) {
-      if (["7", "8", "6", "4", "5", "0", "2"].includes(number[2])) {
-        return true;
-      }
-    } else {
-      return false;
+      return ["7", "8", "6", "4", "5", "0", "2"].includes(number[2]);
     }
   } else {
     return false;
