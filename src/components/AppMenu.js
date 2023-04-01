@@ -1,14 +1,12 @@
-import React, { useContext } from "react";
-import Members from '../appPages/members'
-import Plans from '../appPages/plans'
-import Payments from '../appPages/payments'
+import React from "react";
+import Members from "../appPages/Members";
+import Plans from "../appPages/Plans";
+import Payments from "../appPages/Payments";
 import { MenuProvider } from "../context/menucontext";
-import { LayoutContext } from "../context/layoutcontext";
-import Dashboard from "../appPages/dashboard";
-import AppMenuitem from './AppMenuItem'
+import Dashboard from "../appPages/Dashboard";
+import AppMenuitem from "./AppMenuItem";
+
 const AppMenu = () => {
-  const { layoutConfig } = useContext(LayoutContext);
-  // const contextPath = getConfig().publicRuntimeConfig.contextPath;
   const model = [
     {
       label: "Home",
