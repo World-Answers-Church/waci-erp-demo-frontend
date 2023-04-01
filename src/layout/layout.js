@@ -1,6 +1,6 @@
 import { useEventListener, useUnmountEffect } from "primereact/hooks";
 import { classNames, DomHandler } from "primereact/utils";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import AppFooter from "../components/AppFooter";
 import AppTopbar from "../components/AppTobBar";
 // import AppConfig from './AppConfig';
@@ -8,15 +8,15 @@ import { LayoutContext } from "../context/layoutcontext";
 import PrimeReact from "primereact/api";
 import { useData } from "../context/pageContent";
 import AppSidebar from "../components/AppSideBar";
-import Dashboard from "../appPages/dashboard";
+import Dashboard from "../appPages/Dashboard";
+
 const Layout = (props) => {
   const { layoutConfig, layoutState, setLayoutState } =
     useContext(LayoutContext);
   const topbarRef = useRef(null);
   const sidebarRef = useRef(null);
   const data = useData();
-  // const contextPath = getConfig().publicRuntimeConfig.contextPath;
-  // const router = useRouter();
+
   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
     useEventListener({
       type: "click",
