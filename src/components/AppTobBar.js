@@ -16,7 +16,6 @@ const AppTopbar = forwardRef((props, ref) => {
   const menubuttonRef = useRef(null);
   const topbarmenuRef = useRef(null);
   const topbarmenubuttonRef = useRef(null);
-  // const contextPath = getConfig().publicRuntimeConfig.contextPath;
   const [displayConfirmation, setDisplayConfirmation] = useState(false);
   const navigate = useNavigate();
   useImperativeHandle(ref, () => ({
@@ -47,16 +46,25 @@ const AppTopbar = forwardRef((props, ref) => {
       />
     </>
   );
+  const logo =
+    layoutConfig.colorScheme === "light"
+      ? require("../assets/logos/purple_logo.jpg")
+      : require("../assets/logos/white.png");
+
   return (
     <div className="layout-topbar">
-      {/* <Link href="/"> */}
-      <a className="layout-topbar-logo">
+      <a className="layout-topbar-logo" href="/dashboard">
         <>
-          {/* <img src={`${contextPath}/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" /> */}
-          <span>WACI </span>
+          <img
+            src={logo}
+            width="80px"
+            height={"35px"}
+            widt={"true"}
+            alt="logo"
+          />
+          <span>WACI</span>
         </>
       </a>
-      {/* </Link> */}
 
       <button
         ref={menubuttonRef}
@@ -67,31 +75,26 @@ const AppTopbar = forwardRef((props, ref) => {
         <i className="pi pi-bars" />
       </button>
 
-      {/* <button ref={topbarmenubuttonRef} type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={showProfileSidebar}>
-                <i className="pi pi-ellipsis-v" />
-            </button> */}
+      <button
+        ref={topbarmenubuttonRef}
+        type="button"
+        className="p-link layout-topbar-menu-button layout-topbar-button"
+        onClick={showProfileSidebar}
+      >
+        <i className="pi pi-ellipsis-v" />
+      </button>
 
-      <div
+      <div // 3 dots on mobile view
         ref={topbarmenuRef}
         className={classNames("layout-topbar-menu", {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        {/* <button type="button" className="p-link layout-topbar-button">
-                    <i className="pi pi-calendar"></i>
-                    <span>Calendar</span>
-                </button>
-                
-                <button type="button" className="p-link layout-topbar-button">
-                    <i className="pi pi-user"></i>
-                    <span>Profile</span>
-                </button> */}
-        {/* <Link href="/documentation"> */}
-        {/* <button type="button" className="p-link layout-topbar-button">
-                        <i className="pi pi-cog"></i>
-                        <span>Settings</span>
-                    </button> */}
-        {/* </Link> */}
+        <button type="button" className="p-link layout-topbar-button">
+          <i className="pi pi-cog"></i>
+          <span>Settings</span>
+        </button>
+
         <button
           type="button"
           className="p-link layout-topbar-button"
@@ -101,6 +104,7 @@ const AppTopbar = forwardRef((props, ref) => {
           <span>LogOut</span>
         </button>
       </div>
+
       <Dialog
         header="Confirmation"
         visible={displayConfirmation}
