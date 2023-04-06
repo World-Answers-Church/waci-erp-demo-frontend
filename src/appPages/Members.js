@@ -3,54 +3,28 @@ import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
-import { useData } from "../context/pageContent";
 import { Toast } from "primereact/toast";
-import { Dialog } from "primereact/dialog";
 import { FilterMatchMode } from "primereact/api";
 import {
   isValidEmail,
   isValidPhoneNumber,
   isValidText,
   isValidYear,
-  toSentenceCase,
 } from "../utils/validations";
-import { Dropdown } from "primereact/dropdown";
-import { InputTextarea } from "primereact/inputtextarea";
 import BaseApiService from "../utils/BaseApiService";
 import { DEFAULT_PAGINATION_LIMIT } from "../constants/Constants";
+import PersonalDetails from "../components/PersonalDetails";
+import MemberForm from "../components/MemberForm";
+
 export default function Members() {
   const [globalFilterValue1, setGlobalFilterValue1] = useState("");
   const [filters1, setFilters1] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [displayBasic, setDisplayBasic] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [physicalAddress, setPhysicalAddress] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [yearJoined, setYearJoined] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [nin, setNin] = useState(""); //pending validation format
   const toast = useRef();
-  const [salutation, setSalutation] = useState("");
   const [members, setMembers] = useState([]);
   const [offset, setOffset] = useState(0);
-
-  const memberData = {
-    firstName: toSentenceCase(firstName),
-    lastName: toSentenceCase(lastName),
-    middleName: toSentenceCase(middleName),
-    phoneNumber: phoneNumber.trim(),
-    physicalAddress: toSentenceCase(physicalAddress),
-    emailAddress: emailAddress.trim(),
-    yearJoined: yearJoined.trim(),
-    occupation: toSentenceCase(occupation),
-    nin: nin.trim(),
-    salutation: salutation.name,
-    //toSentenceCase is to prevent submiting content with difernet cases
-    //trim() is to remove trailing spaces int the input field
-  };
+  const [details, setDetails] = useState(null);
 
   const salutations = [
     { name: "MR" },
@@ -122,21 +96,7 @@ export default function Members() {
     });
   }
 
-  function clearForm() {
-    // reseting input fields to default
-    setFirstName("");
-    setLastName("");
-    setEmailAddress("");
-    setMiddleName("");
-    setNin("");
-    setOccupation("");
-    setPhysicalAddress("");
-    setPhoneNumber("");
-    setYearJoined("");
-    setSalutation("");
-  }
-
-  const Submit = async () => {
+  const Submit = async (memberData, clearForm) => {
     let isValid = true; // validation flag
 
     if (memberData.emailAddress !== "") {
@@ -214,241 +174,145 @@ export default function Members() {
   };
 
   const renderHeader1 = () => {
-    return (
-      <div className="flex justify-content-between">
-        <Button
-          type="button"
-          icon="pi pi-filter-slash"
-          label="Clear"
-          className="p-button-outlined"
-          onClick={clearFilter1}
-        />
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText
-            value={searchTerm}
-            onChange={onGlobalFilterChange1}
-            placeholder="Keyword Search"
-            style={{ width: "auto" }}
+    const isPhone = window.innerWidth > 470;
+
+    if (isPhone) {
+      return (
+        <div className="flex justify-content-between">
+          <Button
+            type="button"
+            icon="pi pi-filter-slash"
+            label="Clear"
+            className="p-button-outlined"
+            onClick={clearFilter1}
           />
-        </span>
-      </div>
-    );
+          <span className="p-input-icon-left">
+            <i className="pi pi-search" />
+            <InputText
+              value={globalFilterValue1}
+              onChange={onGlobalFilterChange1}
+              placeholder="Keyword Search"
+              style={{ width: "auto" }}
+            />
+          </span>
+        </div>
+      );
+    }
   };
 
-  const isDesktop = () => {
-    return window.innerWidth > 991;
-  };
   const header1 = renderHeader1();
-
-  const basicDialogFooter = (
-    <>
-      <Button
-        type="button"
-        label="Cancel"
-        onClick={() => setDisplayBasic(false)}
-        icon="pi pi-times"
-        className="p-button-secondary"
-      />
-      <Button
-        label="Save"
-        className="p-button-raised p-button-success"
-        icon="pi pi-check"
-        onClick={Submit}
-      />
-    </>
-  );
 
   return (
     <div className="col-12">
       <div className="card">
         <h5>Church Members</h5>
-        <Button
-          label="Add Member"
-          icon="pi pi-user-plus"
-          style={{ marginRight: ".5em" }}
-          onClick={() => setDisplayBasic(true)}
-        />
-        <DataTable
-          value={members}
-          paginator
-          className="mt-3"
-          // loading='true'
-          // showGridlines
-          rows={20}
-          dataKey="id"
-          filters={filters1}
-          filterDisplay="menu"
-          responsiveLayout="scroll"
-          emptyMessage="No Church Members found."
-          header={header1}
-        >
-          <Column
-            field="salutation"
-            header="Salutation"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
-          <Column
-            field="firstName"
-            header="First Name"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
+        {details === null ? (
+          <Button
+            label="Add Member"
+            icon="pi pi-user-plus"
+            style={{ marginRight: ".5em" }}
+            onClick={() => setDisplayBasic(true)}
+          />
+        ) : (
+          <>
+            <div
+              onClick={() => setDetails(null)}
+              style={{
+                cursor: "pointer",
+              }}
+              className="mb-4 mt-4"
+            >
+              <i className="pi pi-chevron-left" />
+              <span
+                style={{
+                  marginLeft: "6px",
+                }}
+              >
+                Back
+              </span>
+            </div>
+          </>
+        )}
+        {details === null ? (
+          <DataTable
+            value={members}
+            paginator
+            className="mt-3"
+            // loading='true'
+            // showGridlines
+            rows={20}
+            dataKey="id"
+            filters={filters1}
+            filterDisplay="menu"
+            responsiveLayout="scroll"
+            emptyMessage="No Church Members found."
+            header={header1}
+            selectionMode="single"
+            onSelectionChange={(e) => setDetails(e.value)}
+          >
+            <Column
+              field="salutation"
+              header="Salutation"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
+            <Column
+              field="firstName"
+              header="First Name"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
 
-          <Column
-            field="lastName"
-            header="Last Name"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
+            <Column
+              field="lastName"
+              header="Last Name"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
 
-          <Column
-            field="phoneNumber"
-            header="Contact"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
+            <Column
+              field="phoneNumber"
+              header="Contact"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
 
-          <Column
-            field="physicalAddress"
-            header="Address"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
+            <Column
+              field="physicalAddress"
+              header="Address"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
 
-          <Column
-            field="emailAddress"
-            header="Email"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
+            <Column
+              field="emailAddress"
+              header="Email"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
 
-          <Column
-            field="yearJoined"
-            header="Year Joined"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
-          <Column
-            field="occupation"
-            header="Ocupation"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
-          <Column
-            field="nin"
-            header="NIN"
-            style={{ flexGrow: 1, minWidth: "12rem" }}
-          ></Column>
-        </DataTable>
+            <Column
+              field="yearJoined"
+              header="Year Joined"
+              style={{ flexGrow: 1, minWidth: "10rem" }}
+            ></Column>
+            <Column
+              field="occupation"
+              header="Ocupation"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
+            <Column
+              field="nin"
+              header="NIN"
+              style={{ flexGrow: 1, minWidth: "12rem" }}
+            ></Column>
+          </DataTable>
+        ) : (
+          <PersonalDetails person={details} />
+        )}
 
         <Toast ref={toast} />
 
-        <Dialog // the form
-          header="Add Church Member"
-          visible={displayBasic}
-          style={{ height: "fit-content" }}
-          modal
-          footer={basicDialogFooter}
-          onHide={() => setDisplayBasic(false)}
-          className={isDesktop() ? "col-9" : "col-11"}
-        >
-          <div className=" p-fluid formgrid grid">
-            <div className="field col-12 md:col-4">
-              <label htmlFor="name1">Salutation</label>
-              <Dropdown
-                value={salutation}
-                onChange={(e) => setSalutation(e.value)}
-                options={salutations}
-                optionLabel="name"
-              />
-            </div>
-            <div className="field col-12 md:col-4">
-              <label htmlFor="name1">First Name</label>
-              <InputText
-                id="name1"
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-
-            <div className="field col-12 md:col-4">
-              <label htmlFor="name1">Middle Name</label>
-              <InputText
-                id="name2"
-                type="text"
-                value={middleName}
-                onChange={(e) => setMiddleName(e.target.value)}
-              />
-            </div>
-            <div className="field col-12 md:col-4">
-              <label htmlFor="name1">Last Name</label>
-              <InputText
-                id="name3"
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-
-            <div className="field col-12 md:col-4">
-              <label htmlFor="phoneNumber">Phone Number</label>
-              <InputText
-                id="phoneNumber"
-                type="text"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
-            </div>
-
-            <div className="field col-12 md:col-4 ">
-              <label htmlFor="email">Email</label>
-              <InputText
-                id="email"
-                value={emailAddress}
-                onChange={(e) => setEmailAddress(e.target.value)}
-              />
-            </div>
-
-            <div className="field col-12 md:col-4 ">
-              <label htmlFor="address">Location</label>
-              <InputText
-                type="text"
-                id="address"
-                value={physicalAddress}
-                onChange={(e) => setPhysicalAddress(e.target.value)}
-              />
-            </div>
-
-            <div className="field col-12 md:col-4 ">
-              <label htmlFor="address">Year Joined</label>
-              <InputText
-                type="text"
-                id="yearJoined"
-                value={yearJoined}
-                onChange={(e) => setYearJoined(e.target.value)}
-              />
-            </div>
-
-            <div className="field col-12 md:col-4 ">
-              <label htmlFor="address">NIN</label>
-              <InputText
-                id="nin"
-                type="text"
-                value={nin}
-                onChange={(e) => setNin(e.target.value)}
-              />
-            </div>
-
-            <div className="field col-12 md:col-4 ">
-              <label htmlFor="address">Occupation</label>
-              <InputText
-                id="occupation"
-                type="text"
-                value={occupation}
-                onChange={(e) => setOccupation(e.target.value)}
-              />
-            </div>
-            <div className="field col-12 md:col-8 ">
-              <label htmlFor="address">Prayer Request</label>
-              <InputTextarea placeholder="Your request" autoResize rows="3" />
-            </div>
-          </div>
-        </Dialog>
+        <MemberForm
+          salutations={salutations}
+          displayBasic={displayBasic}
+          setDisplayBasic={setDisplayBasic}
+          Submit={Submit}
+        />
       </div>
     </div>
   );
