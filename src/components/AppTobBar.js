@@ -48,7 +48,7 @@ const AppTopbar = forwardRef((props, ref) => {
   );
   const logo =
     layoutConfig.colorScheme === "light"
-      ? require("../assets/logos/purple_logo.jpg")
+      ? require("../assets/logos/purple_logo.png")
       : require("../assets/logos/white.png");
 
   return (
