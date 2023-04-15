@@ -10,6 +10,7 @@ import { LayoutContext } from "../context/layoutcontext";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { useNavigate } from "react-router-dom";
+import { UserSessionUtils } from "../utils/UserSessionUtils";
 const AppTopbar = forwardRef((props, ref) => {
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
     useContext(LayoutContext);
@@ -24,7 +25,8 @@ const AppTopbar = forwardRef((props, ref) => {
     topbarmenubutton: topbarmenubuttonRef.current,
   }));
   const logOut = () => {
-    navigate("/");
+    UserSessionUtils.clearLocalStorageAndLogOut();
+    navigate("/", { replace: true });
   };
 
   const confirmationDialogFooter = (

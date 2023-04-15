@@ -80,6 +80,5 @@ export class UserSessionUtils {
     localStorage.setItem(USER_DETAILS_LOCALSTORAGE_KEY, "");
     localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE_KEY, "");
     localStorage.setItem(USER_IS_LOGGED_IN_LOCALSTORAGE_KEY, "");
-    window.location.href = "/";
   }
 }
