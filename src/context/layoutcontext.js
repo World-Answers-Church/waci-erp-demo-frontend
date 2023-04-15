@@ -51,7 +51,8 @@ export const LayoutProvider = ({children}) => {
         layoutState,
         setLayoutState,
         onMenuToggle,
-        showProfileSidebar
+        showProfileSidebar,
+        isDesktop
     };
 
     return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
