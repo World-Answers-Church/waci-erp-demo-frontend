@@ -33,3 +33,12 @@ export function toSentenceCase(str) {
   str = str.trim();
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+export function isPositiveNumber(str) {
+  if (/^\d+$/.test(str)) {
+    if (Number(str) > 0) {
+      return true;
+    }
+  }
+  return false;
+}
