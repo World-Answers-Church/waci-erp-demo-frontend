@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { toSentenceCase } from "../utils/validations";
-
+import { LayoutContext } from "../context/layoutcontext";
 export default function MemberForm({
   salutations,
   Submit,
@@ -22,7 +22,8 @@ export default function MemberForm({
   const [occupation, setOccupation] = useState("");
   const [nin, setNin] = useState("");
   const [salutation, setSalutation] = useState("");
-
+  const { isDesktop } = useContext(LayoutContext);
+  
   const memberData = {
     firstName: toSentenceCase(firstName),
     lastName: toSentenceCase(lastName),
@@ -61,13 +62,10 @@ export default function MemberForm({
         label="Save"
         className="p-button-raised p-button-success"
         icon="pi pi-check"
-        onClick={()=>Submit(memberData, clearForm)}
+        onClick={() => Submit(memberData, clearForm)}
       />
     </>
   );
-  const isDesktop = () => {
-    return window.innerWidth > 991;
-  };
 
   return (
     <Dialog // the form
