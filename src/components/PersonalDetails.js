@@ -3,7 +3,7 @@ import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Dialog } from "primereact/dialog";
 import { InputTextarea } from "primereact/inputtextarea";
-export default function PersonalDetails({ person }) {
+export default function PersonalDetails({person}) {
   const [show, setShow] = useState(false);
   const [request, setRequest] = useState("");
   const [requestData, setData] = useState([]);
@@ -123,12 +123,16 @@ export default function PersonalDetails({ person }) {
                 </p>
               ))
             )}
-            <div className={isDesktop() ? "col-2" : "col-8"}>
+            <div
+              style={{
+                width: "fit-content",
+              }}
+            >
               <Button
                 label="New"
                 icon="pi pi-plus"
                 onClick={() => setShow(true)}
-                className="p-button-info"
+                className="p-button-raised p-button-info"
               />
             </div>
           </div>
@@ -144,7 +148,7 @@ export default function PersonalDetails({ person }) {
         modal
         footer={basicDialogFooter}
         onHide={() => setShow(false)}
-        className={isDesktop() ? "col-8" : "col-11"}
+        className={isDesktop() ? "col-6" : "col-12"}
       >
         <div className=" p-fluid formgrid grid">
           <div className="field col-12 md:col-12 ">
