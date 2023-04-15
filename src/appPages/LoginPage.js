@@ -1,24 +1,48 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
-// import { LayoutContext } from '../../../layout/context/layoutcontext';
 import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
 import { useNavigate } from "react-router-dom";
+import { LayoutContext } from "../context/layoutcontext";
+import { Toast } from "primereact/toast";
+import { UserSessionUtils } from "../utils/UserSessionUtils";
+
 const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
-  // const { layoutConfig } = useContext(LayoutContext);
-  // const contextPath = getConfig().publicRuntimeConfig.contextPath;
+  const { layoutConfig } = useContext(LayoutContext);
+  const [username, setName] = useState("");
   const containerClassName = classNames(
     "surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
   );
   const navigate = useNavigate();
+  const toast = useRef();
+
+  const logo =
+    layoutConfig.colorScheme === "light"
+      ? require("../assets/logos/purple_logo.png")
+      : require("../assets/logos/white.png");
+
+  const handleSubmit = () => {
+    if (username.length > 0 && password.length > 0) {
+      UserSessionUtils.setIsUserLoggedIn(true);
+      UserSessionUtils.isUserLoggedIn()
+      UserSessionUtils.setUserDetails({ username, password });
+      navigate("/dashboard", { replace: true });
+    } else {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Invalid username or password",
+        life: 5000,
+      });
+    }
+  };
   return (
     <div className={containerClassName}>
       <div className="flex flex-column align-items-center justify-content-center">
-        {/* <img src={`${contextPath}/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0"/> */}
         <div
           style={{
             borderRadius: "56px",
@@ -32,13 +56,13 @@ const LoginPage = () => {
             style={{ borderRadius: "53px" }}
           >
             <div className="text-center mb-5">
-              {/* <img src={`${contextPath}/demo/images/login/avatar.png`} alt="Image" height="50" className="mb-3" /> */}
+              <img src={logo} alt="Waci logo" height="60" className="mb-3" />
               <div className="text-900 text-3xl font-medium mb-3">
                 Welcome, User!
               </div>
               <span className="text-600 font-medium">Sign in to continue</span>
             </div>
-
+            <Toast ref={toast} />
             <div>
               <label
                 htmlFor="email1"
@@ -52,6 +76,8 @@ const LoginPage = () => {
                 placeholder="Email address"
                 className="w-full md:w-30rem mb-5"
                 style={{ padding: "1rem" }}
+                value={username}
+                onChange={(e) => setName(e.target.value)}
               />
 
               <label
@@ -68,6 +94,7 @@ const LoginPage = () => {
                 toggleMask
                 className="w-full mb-5"
                 inputClassName="w-full p-3 md:w-30rem"
+                feedback={false}
               ></Password>
 
               <div className="flex align-items-center justify-content-between mb-5 gap-5">
@@ -81,13 +108,18 @@ const LoginPage = () => {
                   <label htmlFor="rememberme1">Remember me</label>
                 </div>
                 <a
+                  href="/"
                   className="font-medium no-underline ml-2 text-right cursor-pointer"
                   style={{ color: "var(--primary-color)" }}
                 >
                   Forgot password?
                 </a>
               </div>
-              <Button label="Sign In" className="w-full p-3 text-xl" onClick={()=>navigate('/dashboard')}></Button>
+              <Button
+                label="Sign In"
+                className="w-full p-3 text-xl"
+                onClick={() => handleSubmit()}
+              ></Button>
             </div>
           </div>
         </div>
