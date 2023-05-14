@@ -11,7 +11,7 @@
 		.p-carousel-content {
 			.p-carousel-item {
 				.car-details {
-					> .p-grid {
+					> .grid {
 						border-radius: 3px;
 						margin: .3em;
 						text-align: center;
@@ -351,7 +351,7 @@
         text-align: center;
         color: #6c757d;
 
-        .p-md-2 {
+        .md-2 {
             padding: 1em;
         }
     }
@@ -726,6 +726,119 @@ pre[class*="language-"] {
     }
 }
 
+.table-demo {
+    .p-datatable-frozen-tbody {
+        font-weight: bold;
+    }
+
+    .p-datatable-scrollable {
+        .p-frozen-column {
+            font-weight: bold;
+        }
+    }
+
+    .image-text {
+        vertical-align: middle;
+        margin-left: .5rem;
+    }
+}
+
+.customer-badge,
+.product-badge,
+.order-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.customer-badge {
+    &.status-qualified {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-unqualified {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-negotiation {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+
+    &.status-new {
+        background: #B3E5FC;
+        color: #23547B;
+    }
+
+    &.status-renewal {
+        background: #ECCFFF;
+        color: #694382;
+    }
+
+    &.status-proposal {
+        background: #FFD8B2;
+        color: #805B36;
+    }
+}
+
+.product-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.status-instock {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-outofstock {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-lowstock {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+}
+
+.order-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.order-delivered {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.order-cancelled {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.order-pending {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+
+    &.order-returned {
+        background: #ECCFFF;
+        color: #694382;
+    }
+}
+
 .block-viewer {
     .block-section {
         margin-bottom: 4rem;
@@ -872,118 +985,4 @@ pre[class*="language-"] {
         }
     }
 }
-
-.table-demo {
-    .p-datatable-frozen-tbody {
-        font-weight: bold;
-    }
-
-    .p-datatable-scrollable {
-        .p-frozen-column {
-            font-weight: bold;
-        }
-    }
-
-    .image-text {
-        vertical-align: middle;
-        margin-left: .5rem;
-    }
-}
-
-.customer-badge,
-.product-badge,
-.order-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
-}
-
-.customer-badge {
-    &.status-qualified {
-        background: #C8E6C9;
-        color: #256029;
-    }
-
-    &.status-unqualified {
-        background: #FFCDD2;
-        color: #C63737;
-    }
-
-    &.status-negotiation {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
-
-    &.status-new {
-        background: #B3E5FC;
-        color: #23547B;
-    }
-
-    &.status-renewal {
-        background: #ECCFFF;
-        color: #694382;
-    }
-
-    &.status-proposal {
-        background: #FFD8B2;
-        color: #805B36;
-    }
-}
-
-.product-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
-
-    &.status-instock {
-        background: #C8E6C9;
-        color: #256029;
-    }
-
-    &.status-outofstock {
-        background: #FFCDD2;
-        color: #C63737;
-    }
-
-    &.status-lowstock {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
-}
-
-.order-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
-
-    &.order-delivered {
-        background: #C8E6C9;
-        color: #256029;
-    }
-
-    &.order-cancelled {
-        background: #FFCDD2;
-        color: #C63737;
-    }
-
-    &.order-pending {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
-
-    &.order-returned {
-        background: #ECCFFF;
-        color: #694382;
-    }
-}
-
 

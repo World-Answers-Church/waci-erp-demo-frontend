@@ -10,20 +10,20 @@ import { FAILED_TO_LOAD_MESSAGE, INTERNAL_SERVER_ERROR } from "../constants/Erro
  * @returns
  */
 export function formatJSDate(date: any, showTime: boolean = false) {
-    if (date == null) return null;
-    if (!showTime) {
-        var d = new Date(date),
-            month = "" + (d.getMonth() + 1),
-            day = "" + d.getDate(),
-            year = d.getFullYear();
+  if (date == null) return null;
+  if (!showTime) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-        if (month.length < 2) month = "0" + month;
-        if (day.length < 2) day = "0" + day;
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
 
-        return [year, month, day].join("-");
-    } else {
-        return new Date(date).toISOString();
-    }
+    return [year, month, day].join("-");
+  } else {
+    return new Date(date).toISOString();
+  }
 }
 
 /**
@@ -33,10 +33,10 @@ export function formatJSDate(date: any, showTime: boolean = false) {
  * @returns
  */
 export function formatAmountWithCommas(amount: Number, currency: string | null) {
-    if (amount) {
-        var formattedAmount = amount.toLocaleString();
-        return currency == null ? formattedAmount : currency + " " + formattedAmount;
-    } else return "-";
+  if (amount) {
+    var formattedAmount = amount.toLocaleString();
+    return currency == null ? formattedAmount : currency + " " + formattedAmount;
+  } else return "-";
 }
 
 /**
@@ -46,11 +46,11 @@ export function formatAmountWithCommas(amount: Number, currency: string | null) 
  * @returns {String}
  */
 export function formatNumberWithCommas(number: Number, defaultNumber: Number | string | null = "-") {
-    if (number) {
-        return number.toLocaleString();
-    } else {
-        return defaultNumber;
-    }
+  if (number) {
+    return number.toLocaleString();
+  } else {
+    return defaultNumber;
+  }
 }
 
 /**
@@ -61,38 +61,38 @@ export function formatNumberWithCommas(number: Number, defaultNumber: Number | s
  * @returns {string}
  */
 export function toReadableDate(date_value: string, date_only: boolean = false) {
-    if (date_value == null) {
-        return "-";
-    } else if (date_value && date_only) {
-        return DateTime.fromISO(date_value).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
-    } else if (date_value && !date_only) {
-        return DateTime.fromISO(date_value).toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY);
-    }
+  if (date_value == null) {
+    return "-";
+  } else if (date_value && date_only) {
+    return DateTime.fromISO(date_value).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
+  } else if (date_value && !date_only) {
+    return DateTime.fromISO(date_value).toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY);
+  }
 }
 
 /**
  * This returns the current date time into an ISO string
  */
 export function getCurrentDateTimeISOFormat() {
-    return DateTime.now().toISO();
+  return DateTime.now().toISO();
 }
 
 /**
  * This returns the first date of the current month
  */
 export function getFirstDateOfMonth() {
-    return DateTime.local().startOf("month").toISODate();
+  return DateTime.local().startOf("month").toISODate();
 }
 
 /**
  * This returns the current date into an ISO string
  */
 export function getCurrentDateISOFormat() {
-    return DateTime.now().toISODate();
+  return DateTime.now().toISODate();
 }
 
 export function getDateFromString(dateString: string) {
-    return DateTime.fromISO(dateString);
+  return DateTime.fromISO(dateString);
 }
 
 /**
@@ -101,11 +101,11 @@ export function getDateFromString(dateString: string) {
  * @returns
  */
 export function isDictEmpty(obj: {}) {
-    return Object.keys(obj).length === 0;
+  return Object.keys(obj).length === 0;
 }
 
 export function replaceWithUnderscore(value: string) {
-    return value.replace(/\s+/g, "_").toLowerCase();
+  return value.replace(/\s+/g, "_").toLowerCase();
 }
 
 /**
@@ -115,13 +115,13 @@ export function replaceWithUnderscore(value: string) {
  * @returns
  */
 export function formatBooleanFields(field: Boolean) {
-    if (field === null) return "-";
-    else if (field === true) return "Yes";
-    else if (field === false) return "No";
+  if (field === null) return "-";
+  else if (field === true) return "Yes";
+  else if (field === false) return "No";
 }
 
 export function sanitizeValue(recordValue: any) {
-    return recordValue === null || recordValue === undefined ? "-" : recordValue;
+  return recordValue === null || recordValue === undefined ? "-" : recordValue;
 }
 
 /**
@@ -131,13 +131,13 @@ export function sanitizeValue(recordValue: any) {
  * @returns
  */
 export function generateId(length: number) {
-    var result = "";
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+  var result = "";
+  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
 
 /**
@@ -146,10 +146,10 @@ export function generateId(length: number) {
  * "This is Great and Wonderful".
  */
 export function formatString(str: string, ...replacements: string[]) {
-    for (let index = 0; index < replacements.length; index++) {
-        str = str.replace(`{${index}}`, replacements[index]);
-    }
-    return str;
+  for (let index = 0; index < replacements.length; index++) {
+    str = str.replace(`{${index}}`, replacements[index]);
+  }
+  return str;
 }
 
 /**
@@ -158,12 +158,12 @@ export function formatString(str: string, ...replacements: string[]) {
  * @returns {Array} an array of strings
  */
 export function splitCommaSeparatedString(commaSeparatedString: string) {
-    if (commaSeparatedString !== null) {
-        return commaSeparatedString.split(",").map((item) => {
-            return item.trim();
-        });
-    }
-    return [];
+  if (commaSeparatedString !== null) {
+    return commaSeparatedString.split(",").map((item) => {
+      return item.trim();
+    });
+  }
+  return [];
 }
 
 /**
@@ -173,13 +173,13 @@ export function splitCommaSeparatedString(commaSeparatedString: string) {
  * @returns
  */
 export function validatePhoneNumber(phoneNumber: string) {
-    var result = false;
-    SupportedTerritories.forEach((territory: any) => {
-        if (isValidPhoneNumber(phoneNumber, territory.countryIsoCode)) {
-            result = true;
-        }
-    });
-    return result;
+  var result = false;
+  SupportedTerritories.forEach((territory: any) => {
+    if (isValidPhoneNumber(phoneNumber, territory.countryIsoCode)) {
+      result = true;
+    }
+  });
+  return result;
 }
 
 /**
@@ -188,10 +188,10 @@ export function validatePhoneNumber(phoneNumber: string) {
  * @param {string} phoneNumber
  */
 export function addPlusCharacterToPhoneNumber(phoneNumber: string) {
-    if (phoneNumber.charAt(0) !== "+") {
-        return "+" + phoneNumber;
-    }
-    return phoneNumber;
+  if (phoneNumber.charAt(0) !== "+") {
+    return "+" + phoneNumber;
+  }
+  return phoneNumber;
 }
 
 /**
@@ -200,16 +200,16 @@ export function addPlusCharacterToPhoneNumber(phoneNumber: string) {
  * @param {string} phoneNumber
  */
 export function validateInternationalPhoneNumber(phoneNumber: string) {
-    var result = false;
-    try {
-        var parsedPhoneNumber = parsePhoneNumber(addPlusCharacterToPhoneNumber(phoneNumber));
-        if (parsedPhoneNumber != null && SupportedTerritories.filter((e) => e.countryIsoCode === parsedPhoneNumber.country).length > 0 && parsedPhoneNumber.isValid()) {
-            result = true;
-        }
-    } catch (error) {
-        result = false;
+  var result = false;
+  try {
+    var parsedPhoneNumber = parsePhoneNumber(addPlusCharacterToPhoneNumber(phoneNumber));
+    if (parsedPhoneNumber != null && SupportedTerritories.filter((e) => e.countryIsoCode === parsedPhoneNumber.country).length > 0 && parsedPhoneNumber.isValid()) {
+      result = true;
     }
-    return result;
+  } catch (error) {
+    result = false;
+  }
+  return result;
 }
 
 /**
@@ -219,7 +219,7 @@ export function validateInternationalPhoneNumber(phoneNumber: string) {
  * @returns
  */
 export function validateEmail(email: string) {
-    return email.match(EmailRegex);
+  return email.match(EmailRegex);
 }
 
 /**
@@ -229,16 +229,16 @@ export function validateEmail(email: string) {
  * @returns
  */
 export function getArrayKeyValue(arr: any, key: string) {
-    let value: number | string | null = null;
+  let value: number | string | null = null;
 
-    for (const element of arr) {
-        if (element?.key === key) {
-            value = element?.value;
-            break;
-        }
+  for (const element of arr) {
+    if (element?.key === key) {
+      value = element?.value;
+      break;
     }
+  }
 
-    return value;
+  return value;
 }
 
 /**
@@ -247,11 +247,11 @@ export function getArrayKeyValue(arr: any, key: string) {
  * @returns boolean
  */
 export function userHasPermission(permissionName: string) {
-    let userDetails: any = UserSessionUtils.getUserDetails();
-    if (userDetails?.isASuperAdmin) {
-        return true;
-    }
-    return userDetails?.permissionLists?.some((userPermission: any) => userPermission.permissionName === permissionName);
+  let userDetails: any = UserSessionUtils.getUserDetails();
+  if (userDetails?.isASuperAdmin) {
+    return true;
+  }
+  return userDetails?.permissionLists?.some((userPermission: any) => userPermission.permissionName === permissionName);
 }
 
 /**
@@ -261,11 +261,11 @@ export function userHasPermission(permissionName: string) {
  * @returns boolean
  */
 export function userHasPermissionId(module: number, permissionId: number) {
-    let userDetails: any = UserSessionUtils.getUserDetails();
-    if (userDetails?.isASuperAdmin) {
-        return true;
-    }
-    return userDetails?.permissionLists?.some((userPermission: any) => userPermission.module === module && userPermission.permissionId === permissionId);
+  let userDetails: any = UserSessionUtils.getUserDetails();
+  if (userDetails?.isASuperAdmin) {
+    return true;
+  }
+  return userDetails?.permissionLists?.some((userPermission: any) => userPermission.module === module && userPermission.permissionId === permissionId);
 }
 
 /**
@@ -277,11 +277,11 @@ export function userHasPermissionId(module: number, permissionId: number) {
  * @returns
  */
 export function userHasModulePermissions(module: number, permissions: any) {
-    let userDetails: any = UserSessionUtils.getUserDetails();
-    if (userDetails?.isASuperAdmin) {
-        return true;
-    }
-    return userPermissionsContains(userDetails?.permissionLists, module, permissions);
+  let userDetails: any = UserSessionUtils.getUserDetails();
+  if (userDetails?.isASuperAdmin) {
+    return true;
+  }
+  return userPermissionsContains(userDetails?.permissionLists, module, permissions);
 }
 
 /**
@@ -290,12 +290,12 @@ export function userHasModulePermissions(module: number, permissions: any) {
  * @returns boolean
  */
 export function userHasModule(moduleName: string) {
-    let userDetails: any = UserSessionUtils.getUserDetails();
-    if (userDetails?.isASuperAdmin) {
-        return true;
-    }
-    let userModules: any = [...new Set<string>(userDetails?.permissionLists?.map((permission: any) => permission.moduleName))];
-    return userModules?.some((userModule: any) => userModule === moduleName);
+  let userDetails: any = UserSessionUtils.getUserDetails();
+  if (userDetails?.isASuperAdmin) {
+    return true;
+  }
+  let userModules: any = [userDetails?.permissionLists?.map((permission: any) => permission.moduleName)];
+  return userModules?.some((userModule: any) => userModule === moduleName);
 }
 
 /**
@@ -304,24 +304,24 @@ export function userHasModule(moduleName: string) {
  * @returns
  */
 export function userHasModuleIds(moduleIds: any) {
-    let userDetails: any = UserSessionUtils.getUserDetails();
-    if (userDetails?.isASuperAdmin) {
-        return true;
-    }
-    let userModules: any = [...new Set<string>(userDetails?.permissionLists?.map((permission: any) => permission.module))];
-    return userModules?.some((userModule: any) => moduleIds.includes(userModule));
+  let userDetails: any = UserSessionUtils.getUserDetails();
+  if (userDetails?.isASuperAdmin) {
+    return true;
+  }
+  let userModules: any = [userDetails?.permissionLists?.map((permission: any) => permission.module)];
+  return userModules?.some((userModule: any) => moduleIds.includes(userModule));
 }
 
 export function userPermissionsContains(userPermissionsList: any, module: number, permissionsArray: any) {
-    return userPermissionsList?.some((userPermission: any) => userPermission.module === module && permissionsArray.includes(userPermission.permissionId));
+  return userPermissionsList?.some((userPermission: any) => userPermission.module === module && permissionsArray.includes(userPermission.permissionId));
 }
 
 export function arrayContains(arrayObject: any, value: any) {
-    return arrayObject?.some((object: any) => value === object);
+  return arrayObject?.some((object: any) => value === object);
 }
 
 export function getGoogleMapsURL(latitude: string, longitude: string) {
-    return `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+  return `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 }
 
 /**
@@ -329,7 +329,7 @@ export function getGoogleMapsURL(latitude: string, longitude: string) {
  * @returns
  */
 export function getDefaultYearRange() {
-    return `1900:${new Date().getFullYear()}`;
+  return `1900:${new Date().getFullYear()}`;
 }
 
 /**
@@ -339,7 +339,7 @@ export function getDefaultYearRange() {
  * @returns
  */
 export function getYearRange(numberOfYearsBefore: number, numberOfYearsAfter: number) {
-    return `${new Date().getFullYear() - numberOfYearsBefore}:${new Date().getFullYear() + numberOfYearsAfter}`;
+  return `${new Date().getFullYear() - numberOfYearsBefore}:${new Date().getFullYear() + numberOfYearsAfter}`;
 }
 
 /**
@@ -348,11 +348,11 @@ export function getYearRange(numberOfYearsBefore: number, numberOfYearsAfter: nu
  * @returns
  */
 export function convertToLowerCase(stringToConvert: string | null) {
-    try {
-        return stringToConvert?.toLowerCase();
-    } catch (error: any) {
-        return stringToConvert;
-    }
+  try {
+    return stringToConvert?.toLowerCase();
+  } catch (error: any) {
+    return stringToConvert;
+  }
 }
 
 /**
@@ -361,9 +361,9 @@ export function convertToLowerCase(stringToConvert: string | null) {
  * @returns
  */
 export const googleMapsLinkTemplate = (data: any) => {
-    if (data?.latitude !== null && data?.latitude !== undefined && data?.longitude !== null && data?.longitude !== undefined) {
-        return <a className="hyper-link" href={getGoogleMapsURL(data?.latitude, data?.longitude)} target="_blank">{`${data?.latitude}, ${data?.longitude}`}</a>;
-    }
+  if (data?.latitude !== null && data?.latitude !== undefined && data?.longitude !== null && data?.longitude !== undefined) {
+    return <a className="hyper-link" href={getGoogleMapsURL(data?.latitude, data?.longitude)} target="_blank">{`${data?.latitude}, ${data?.longitude}`}</a>;
+  }
 };
 
 /**
@@ -374,7 +374,7 @@ export const googleMapsLinkTemplate = (data: any) => {
  * @returns
  */
 export const sanitizeErrorMessage = (error: any, objectName: string) => {
-    return error.message === INTERNAL_SERVER_ERROR ? formatString(FAILED_TO_LOAD_MESSAGE, objectName) : error.message;
+  return error.message === INTERNAL_SERVER_ERROR ? formatString(FAILED_TO_LOAD_MESSAGE, objectName) : error.message;
 };
 
 /**
@@ -383,5 +383,5 @@ export const sanitizeErrorMessage = (error: any, objectName: string) => {
  * @returns
  */
 export const accountLabelTemplate = (option: any) => {
-    return <div>{option?.firstName + " " + option?.lastName}</div>;
+  return <div>{option?.firstName + " " + option?.lastName}</div>;
 };
