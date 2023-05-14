@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useHistory } from "react-router-dom";
@@ -18,10 +18,16 @@ const Login = () => {
   const message = useRef<any>();
 
   const goDashboard = () => {
-    UserSessionUtils.setUserDetails({});
-    UserSessionUtils.setUserAuthToken("someToken");
     history.replace(HOME_ROUTE_PATH);
   };
+
+  /**
+   * This hook is called everytime the page is loaded
+   */
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   /**
    * This submits a save county request to the backoffice
    */
@@ -37,6 +43,9 @@ const Login = () => {
       .postRequestWithJsonResponse(userData)
       .then(async (response) => {
         setIsSaving(false);
+        UserSessionUtils.setUserDetails(response?.user);
+        UserSessionUtils.setUserAuthToken(response?.accessToken);
+        goDashboard();
       })
       .catch((error) => {
         setIsSaving(false);
@@ -62,7 +71,7 @@ const Login = () => {
                 <i className="pi pi-envelope"></i>
               </span>
               <span className="p-float-label">
-                <InputText type="text" value={username} id="inputgroup1" />
+                <InputText type="text" value={username} onChange={(e) => setUsername(e.target.value)} id="inputgroup1" />
                 <label htmlFor="inputgroup1">Email/Username</label>
               </span>
             </div>
@@ -72,7 +81,7 @@ const Login = () => {
                 <i className="pi pi-lock"></i>
               </span>
               <span className="p-float-label">
-                <InputText type="password" value={password} id="inputgroup2" />
+                <InputText type="password" value={password} onChange={(e) => setPassword(e.target.value)} id="inputgroup2" />
                 <label htmlFor="inputgroup2">Password</label>
               </span>
             </div>
