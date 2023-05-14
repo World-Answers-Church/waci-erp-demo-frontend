@@ -98,26 +98,10 @@ const MembersView = () => {
   };
 
   /**
-   * This fetches territories from the back office for the dropdown filter
-   */
-  const fetchTerritoriesFromServer = () => {
-    new BaseApiServiceImpl("/api/888")
-      .getRequestWithJsonResponse({})
-      .then(async (response) => {
-        setTerritories(response?.records);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        MessageUtils.showErrorMessage(message, error.message);
-      });
-  };
-
-  /**
    * This hook is called everytime the page is loaded
    */
   useEffect(() => {
     fetchRecordsFromServer();
-    fetchTerritoriesFromServer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
