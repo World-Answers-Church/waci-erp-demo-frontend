@@ -8,7 +8,7 @@ export class BaseApiServiceImpl implements IBaseApiService {
   apiEndpoint: string;
   requestHeaders: {} = {
     "Content-Type": "application/json",
-    bearer: UserSessionUtils.getBearerToken(),
+    Authorization: "Bearer " + UserSessionUtils.getBearerToken(),
     deviceId: UserSessionUtils.getDeviceId(),
   };
 
