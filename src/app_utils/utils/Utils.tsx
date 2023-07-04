@@ -203,7 +203,7 @@ export function validateInternationalPhoneNumber(phoneNumber: string) {
   var result = false;
   try {
     var parsedPhoneNumber = parsePhoneNumber(addPlusCharacterToPhoneNumber(phoneNumber));
-    if (parsedPhoneNumber != null && SupportedTerritories.filter((e) => e.countryIsoCode === parsedPhoneNumber.country).length > 0 && parsedPhoneNumber.isValid()) {
+    if (parsedPhoneNumber != null && SupportedTerritories.filter((e: any) => e.countryIsoCode === parsedPhoneNumber.country).length > 0 && parsedPhoneNumber.isValid()) {
       result = true;
     }
   } catch (error) {
